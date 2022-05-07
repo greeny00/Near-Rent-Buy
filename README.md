@@ -1,170 +1,123 @@
-# `near-sdk-as` Starter Kit
+# Dream Flight DAap
 
-This is a good project to use as a starting point for your AssemblyScript project.
+With this project, it was aimed to collect space expeditions on one page, to enable users to access all flight information easily, and to reserve a seat for their desired flight using their NEAR wallet.
 
-## Samples
+## Loom Video
 
-This repository includes a complete project structure for AssemblyScript contracts targeting the NEAR platform.
+https://www.loom.com/share/9239095038814a6fad067699b82f371f
 
-The example here is very basic.  It's a simple contract demonstrating the following concepts:
-- a single contract
-- the difference between `view` vs. `change` methods
-- basic contract storage
+## How To Use
 
-There are 2 AssemblyScript contracts in this project, each in their own folder:
+First of all, the repo should be cloned or the files should be downloaded to the computer as ZIP from the code section above.
 
-- **simple** in the `src/simple` folder
-- **singleton** in the `src/singleton` folder
+After this step, enter the following commands using a suitable compiler.(This tutorial is made for gitbash here. But with minor punctuation differences, almost all compilers follow the same steps.)
 
-### Simple
-
-We say that an AssemblyScript contract is written in the "simple style" when the `index.ts` file (the contract entry point) includes a series of exported functions.
-
-In this case, all exported functions become public contract methods.
+1)Command that downloads all packages that the project will use:
 
 ```ts
-// return the string 'hello world'
-export function helloWorld(): string {}
-
-// read the given key from account (contract) storage
-export function read(key: string): string {}
-
-// write the given value at the given key to account (contract) storage
-export function write(key: string, value: string): string {}
-
-// private helper method used by read() and write() above
-private storageReport(): string {}
+yarn;
 ```
 
-### Singleton
-
-We say that an AssemblyScript contract is written in the "singleton style" when the `index.ts` file (the contract entry point) has a single exported class (the name of the class doesn't matter) that is decorated with `@nearBindgen`.
-
-In this case, all methods on the class become public contract methods unless marked `private`.  Also, all instance variables are stored as a serialized instance of the class under a special storage key named `STATE`.  AssemblyScript uses JSON for storage serialization (as opposed to Rust contracts which use a custom binary serialization format called borsh).
+2)The command that introduces the contract to the compiler and creates our wasm file:
 
 ```ts
-@nearBindgen
-export class Contract {
 
-  // return the string 'hello world'
-  helloWorld(): string {}
-
-  // read the given key from account (contract) storage
-  read(key: string): string {}
-
-  // write the given value at the given key to account (contract) storage
-  @mutateState()
-  write(key: string, value: string): string {}
-
-  // private helper method used by read() and write() above
-  private storageReport(): string {}
-}
+yarn build:release
 ```
 
+3)To deploy the project:
 
-## Usage
+```ts
 
-### Getting started
-
-(see below for video recordings of each of the following steps)
-
-INSTALL `NEAR CLI` first like this: `npm i -g near-cli`
-
-1. clone this repo to a local folder
-2. run `yarn`
-3. run `./scripts/1.dev-deploy.sh`
-3. run `./scripts/2.use-contract.sh`
-4. run `./scripts/2.use-contract.sh` (yes, run it to see changes)
-5. run `./scripts/3.cleanup.sh`
-
-### Videos
-
-**`1.dev-deploy.sh`**
-
-This video shows the build and deployment of the contract.
-
-[![asciicast](https://asciinema.org/a/409575.svg)](https://asciinema.org/a/409575)
-
-**`2.use-contract.sh`**
-
-This video shows contract methods being called.  You should run the script twice to see the effect it has on contract state.
-
-[![asciicast](https://asciinema.org/a/409577.svg)](https://asciinema.org/a/409577)
-
-**`3.cleanup.sh`**
-
-This video shows the cleanup script running.  Make sure you add the `BENEFICIARY` environment variable. The script will remind you if you forget.
-
-```sh
-export BENEFICIARY=<your-account-here>   # this account receives contract account balance
+near dev-deploy ./build/release/simple.wasm
 ```
 
-[![asciicast](https://asciinema.org/a/409580.svg)](https://asciinema.org/a/409580)
+4)An account ID is created with the deployment of the project. This ID appears as "dev-...........".Copy and paste this ID into <Account ID>. With this step, you will not need to enter account id every time.(Please write without "<,>"these characters.)
 
-### Other documentation
+```ts
 
-- See `./scripts/README.md` for documentation about the scripts
-- Watch this video where Willem Wyndham walks us through refactoring a simple example of a NEAR smart contract written in AssemblyScript
-
-  https://youtu.be/QP7aveSqRPo
-
-  ```
-  There are 2 "styles" of implementing AssemblyScript NEAR contracts:
-  - the contract interface can either be a collection of exported functions
-  - or the contract interface can be the methods of a an exported class
-
-  We call the second style "Singleton" because there is only one instance of the class which is serialized to the blockchain storage.  Rust contracts written for NEAR do this by default with the contract struct.
-
-   0:00 noise (to cut)
-   0:10 Welcome
-   0:59 Create project starting with "npm init"
-   2:20 Customize the project for AssemblyScript development
-   9:25 Import the Counter example and get unit tests passing
-  18:30 Adapt the Counter example to a Singleton style contract
-  21:49 Refactoring unit tests to access the new methods
-  24:45 Review and summary
-  ```
-
-## The file system
-
-```sh
-├── README.md                          # this file
-├── as-pect.config.js                  # configuration for as-pect (AssemblyScript unit testing)
-├── asconfig.json                      # configuration for AssemblyScript compiler (supports multiple contracts)
-├── package.json                       # NodeJS project manifest
-├── scripts
-│   ├── 1.dev-deploy.sh                # helper: build and deploy contracts
-│   ├── 2.use-contract.sh              # helper: call methods on ContractPromise
-│   ├── 3.cleanup.sh                   # helper: delete build and deploy artifacts
-│   └── README.md                      # documentation for helper scripts
-├── src
-│   ├── as_types.d.ts                  # AssemblyScript headers for type hints
-│   ├── simple                         # Contract 1: "Simple example"
-│   │   ├── __tests__
-│   │   │   ├── as-pect.d.ts           # as-pect unit testing headers for type hints
-│   │   │   └── index.unit.spec.ts     # unit tests for contract 1
-│   │   ├── asconfig.json              # configuration for AssemblyScript compiler (one per contract)
-│   │   └── assembly
-│   │       └── index.ts               # contract code for contract 1
-│   ├── singleton                      # Contract 2: "Singleton-style example"
-│   │   ├── __tests__
-│   │   │   ├── as-pect.d.ts           # as-pect unit testing headers for type hints
-│   │   │   └── index.unit.spec.ts     # unit tests for contract 2
-│   │   ├── asconfig.json              # configuration for AssemblyScript compiler (one per contract)
-│   │   └── assembly
-│   │       └── index.ts               # contract code for contract 2
-│   ├── tsconfig.json                  # Typescript configuration
-│   └── utils.ts                       # common contract utility functions
-└── yarn.lock                          # project manifest version lock
+export CONTRACT=<AccountId>
 ```
 
-You may clone this repo to get started OR create everything from scratch.
+5)This step is not mandatory. It helps you to test the correctness of the entered accountId.
 
-Please note that, in order to create the AssemblyScript and tests folder structure, you may use the command `asp --init` which will create the following folders and files:
+```ts
 
+echo $CONTRACT
 ```
-./assembly/
-./assembly/tests/
-./assembly/tests/example.spec.ts
-./assembly/tests/as-pect.d.ts
+
+After all these steps, you can now switch to using the functions.
+
+## Functions
+
+1-Health Check
+With this function, it is checked whether the user has the necessary health to fly. Is a simple dictionary function. The first entry the key is set as the name, and the second entry is set as the health status. If a value other than "healthy" is entered, the function will inform you that you are not available for this flight.
+How to call:
+
+```ts
+
+near call $CONTRACT healthCheck '{"name":"NAME","heart":"healthy"}' -accountId <YOUR TESTNET ACCOUNT>
+```
+
+2-Launching Schedule
+This function notifies the system of a new flight with the information it receives from the user.
+How to call:
+
+```ts
+
+near call $CONTRACT Launching_schedule '{"text":"Moon and Back Mission","cost":"250000","capsul":7,"destination":"Moon","departure":"İstanbul","max_seat":7}' --accountId <YOUR TESTNET ACCOUNT>
+```
+
+3-specific_flight
+This function displays the Id information received from the user and the rest of the flight that has that ID.
+How to call:
+
+```ts
+
+near call $CONTRACT specific_flight '{"id":<FLİGHT ID HERE>}' --accountId <YOUR TESTNET ACCOUNT>
+```
+
+4-Show_All
+This function does not receive any information from the user, when called, it displays all the flights available on the site.
+How to call:
+
+```ts
+
+near call $CONTRACT Show_All '{}' --accountId <YOUR TESTNET ACCOUNT>
+```
+
+5-delete_specific
+Deletes the flight associated with that id from the system with the id information it receives from the user.
+How to call:
+
+```ts
+
+near call $CONTRACT delete_specific '{"id":<FLİGHT ID HERE>}' --accountId <YOUR TESTNET ACCOUNT>
+```
+
+6-deleteall
+This function does not receive any information from the user, when called, it deletes all the flights available on the site.
+How to call:
+
+```ts
+
+near call $CONTRACT deleteall '{}' --accountId <YOUR TESTNET ACCOUNT>
+```
+
+7-Update
+This function updates the flight information associated with the id sent to the function with the information in the second parameter received by the function. In the second parameter, you need to re-enter the information you want to remain the same. The information you enter must be in the desired order. As a result of this operation, the id does not change.
+How to call:
+
+```ts
+
+near call $CONTRACT Update '{"id":<FLİGHT ID HERE>,"updates":{"text":"Moon and Back","cost":"560000","capsul":5,"destination":"Moon","departure":"İstanbul","max_seat":7}}' --accountId <YOUR TESTNET ACCOUNT>
+```
+
+8-BuyingSeat
+This function works with the id and passenger id sent to the function. For the transaction to take place, you must have a balance equal to or greater than the seat fee stated in your NEAR wallet. If you have the balance to buy a seat after this check, the number of seats on the flight will be reduced by one.
+How to call:
+
+```ts
+
+near call $CONTRACT BuyingSeat '{"id":<FLİGHT ID HERE>,"passenger":"<YOUR TESTNET ACCOUNT>"}' --accountId <YOUR TESTNET ACCOUNT>
 ```
