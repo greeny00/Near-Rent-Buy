@@ -62,7 +62,6 @@ export class Flight {
       "Flight could not found! Please, check ID of the flight!"
     );
     return flight.getSome(id);
-    //BURAYA LOGGİNG EKLERSİN BELKİ
   }
   //Deletes all flights.
   static Delete_All(): void {
