@@ -10,7 +10,7 @@ https://www.loom.com/share/9239095038814a6fad067699b82f371f
 
 First of all, the repo should be cloned or the files should be downloaded to the computer as ZIP from the code section above.
 
-After this step, enter the following commands using a suitable programming language.(This tutorial is made for gitbash here. But with minor punctuation differences, almost all compilers follow the same steps.)
+After this step, enter the following commands using a suitable application.(This tutorial is made for gitbash here. But with minor punctuation differences, almost all applications follow the same steps.)
 
 1)Command that downloads all packages that the project will use:
 
