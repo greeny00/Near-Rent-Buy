@@ -51,6 +51,7 @@ After all these steps, you can now switch to using the functions.
 ## Functions
 
 1-Health Check
+  <br/>
 With this function, it is checked whether the user has the necessary health to fly. Is a simple dictionary function. The first entry the key is set as the name, and the second entry is set as the health status. If a value other than "healthy" is entered, the function will inform you that you are not available for this flight.
 How to call:
 
