@@ -61,6 +61,7 @@ near call $CONTRACT healthCheck '{"name":"NAME","heart":"healthy"}' -accountId <
 ```
 
 2-Launching Schedule
+  <br/>
 This function notifies the system of a new flight with the information it receives from the user.
 How to call:
 
@@ -70,6 +71,7 @@ near call $CONTRACT Launching_schedule '{"text":"Moon and Back Mission","cost":"
 ```
 
 3-specific_flight
+  <br/>
 This function displays the Id information received from the user and the rest of the flight that has that ID.
 How to call:
 
@@ -79,6 +81,7 @@ near call $CONTRACT specific_flight '{"id":<FLİGHT ID HERE>}' --accountId <YOUR
 ```
 
 4-Show_All
+  <br/>
 This function does not receive any information from the user, when called, it displays all the flights available on the site.
 How to call:
 
@@ -88,6 +91,7 @@ near call $CONTRACT Show_All '{}' --accountId <YOUR TESTNET ACCOUNT>
 ```
 
 5-delete_specific
+  <br/>
 Deletes the flight associated with that id from the system with the id information it receives from the user.
 How to call:
 
@@ -97,6 +101,7 @@ near call $CONTRACT delete_specific '{"id":<FLİGHT ID HERE>}' --accountId <YOUR
 ```
 
 6-deleteall
+  <br/>
 This function does not receive any information from the user, when called, it deletes all the flights available on the site.
 How to call:
 
@@ -106,6 +111,7 @@ near call $CONTRACT deleteall '{}' --accountId <YOUR TESTNET ACCOUNT>
 ```
 
 7-Update
+  <br/>
 This function updates the flight information associated with the id sent to the function with the information in the second parameter received by the function. In the second parameter, you need to re-enter the information you want to remain the same. The information you enter must be in the desired order. As a result of this operation, the id does not change.
 How to call:
 
@@ -115,6 +121,7 @@ near call $CONTRACT Update '{"id":<FLİGHT ID HERE>,"updates":{"text":"Moon and 
 ```
 
 8-BuyingSeat
+  <br/>
 This function works with the id and passenger id sent to the function. For the transaction to take place, you must have a balance equal to or greater than the seat fee stated in your NEAR wallet. If you have the balance to buy a seat after this check, the number of seats on the flight will be reduced by one.
 How to call:
 
